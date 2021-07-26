@@ -2,6 +2,15 @@
 
 #npm install HeroooesCoin
 
+#Next step is to install all the dependencies:
+##npm install prompt     
+##npm install nodemon --save-dev
+##npm i crypto-js --save
+##npm i elliptic
+##npm i express --save
+##npm i body-parser --save
+##npm i ws --save
+
 #create a wallet 
 ##inside HeroooesCoin node package - execute the following command on nodejs: node createwallet
 
@@ -11,10 +20,5 @@
 ##to view your public key (your HeroooesCoin address)
 ##node publickey
 
-##to send HeroooesCoin (edit the top line in the send file to the addressto and amount)
+##to send HeroooesCoin 
 ##node send
-
-##to send via prompt
-##npm install prompt 
-##node sendviaprompt 
-##this will ask you then what the address to and amount is.

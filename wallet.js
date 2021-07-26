@@ -1,6 +1,7 @@
 var https = require('https');
 
 const fs = require('fs');
+const ChainUtil = require("./chain-util");
 
 const path = 'wallet.dat'
 const outputtext = 'Wallet already exists!';
@@ -8,13 +9,32 @@ const outputtext = 'Wallet already exists!';
 try {
     if (!fs.existsSync(path)) {
 
-        //Create a wallet
+        var keyPair = ChainUtil.genKeyPair(Date.now().toString());
+        var publicKey = "";
+        var privateKey = "";
 
-        jsonObject = JSON.stringify({
-            "PrivateKey": "",
-            "PublicKey": "",
+        publicKey = keyPair.getPublic("hex");
+        privateKey = keyPair.getSecret("hex");
+
+        console.log(publicKey + " - privatekey: " + privateKey);
+        var jsonObject = JSON.stringify({
+            "PrivateKey": privateKey,
+            "PublicKey": "HeroooesCoin" + publicKey.substring(1),
             "CryptoAsset": "HeroooesCoin",
             "Identifier": ""
+        });
+        fs.writeFile("wallet.dat", jsonObject, function (err) {
+            if (err) {
+                return console.log(err);
+            }
+            console.log("Wallet file was created!");
+        });
+
+        var cryptoAssetInput = { PrivateKey: privateKey, PublicKey: "HeroooesCoin" + publicKey.substring(1), CryptoAsset: "HeroooesCoin", Identifier: "" };
+
+        jsonObject = JSON.stringify({
+            "SignMessage": cryptoAssetInput,
+            "CryptoAsset": "HeroooesCoin",
         });
 
         var postheaders = {
@@ -24,7 +44,7 @@ try {
 
         var optionspost = {
             host: 'www.heroooescoin.com',
-            path: '/api/cryptoasset10',
+            path: '/api/cryptoasset22',
             method: 'POST',
             headers: postheaders
         };
@@ -41,13 +61,6 @@ try {
                 console.info('POST result:\n');
 
                 process.stdout.write(d);
-                //add wallet file  //d.PublicKey + '\n' + d.PrivateKey
-                fs.writeFile("wallet.dat", d, function (err) {
-                    if (err) {
-                        return console.log(err);
-                    }
-                    console.log("Wallet file was created!");
-                });
                 console.info('\n\nPOST completed');
             });
         });
@@ -59,13 +72,12 @@ try {
         reqPost.on('error', function (e) {
             console.error(e);
         });
-       
     }
     else {
         console.log(outputtext);
     }
 
 } catch (err) {
-    console.log(outputtext);
+    console.log(err);
 }
 

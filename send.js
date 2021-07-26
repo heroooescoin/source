@@ -4,8 +4,28 @@ var https = require('https');
 
 const fs = require('fs');
 
+const prompt = require('prompt');
+
 const path = 'wallet.dat'
 const outputtext = 'Wallet does not exist! Run CreateWallet to generate a wallet!';
+
+prompt.start();
+
+prompt.get(['addressto','amount'],function(err,result) {
+if (err) {return onErr(err);}
+sender.AddressTo = result.addressto;
+sender.Amount = result.amount;
+return send(sender);
+});
+
+function onErr(err) {
+console.log(err);
+return 1;
+}
+
+
+function send(sender)
+{
 
 try {
     if (fs.existsSync(path)) {
@@ -65,6 +85,7 @@ try {
 
 } catch (err) {
     console.log(outputtext);
+}
 }
 
 
