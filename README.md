@@ -4,12 +4,12 @@
 
 #Next step is to install all the dependencies:
 ##npm install prompt     
-##npm install nodemon --save-dev
-##npm i crypto-js --save
+##npm install nodemon 
+##npm i crypto-js
 ##npm i elliptic
-##npm i express --save
-##npm i body-parser --save
-##npm i ws --save
+##npm i express
+##npm i body-parser
+##npm i ws
 
 #create a wallet 
 ##inside HeroooesCoin node package - execute the following command on nodejs: node createwallet
